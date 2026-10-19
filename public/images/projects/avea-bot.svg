@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgAvea" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#041215"/>
+      <stop offset="50%" stop-color="#061e24"/>
+      <stop offset="100%" stop-color="#030c0e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" fill="url(#bgAvea)"/>
+  <circle cx="680" cy="120" r="140" fill="#10b981" opacity="0.12"/>
+  <circle cx="160" cy="380" r="160" fill="#06b6d4" opacity="0.1"/>
+
+  <!-- Window Frame -->
+  <rect x="60" y="50" width="680" height="380" rx="16" fill="#091c21" fill-opacity="0.9" stroke="#134e4a" stroke-width="1.5"/>
+
+  <!-- Top bar -->
+  <rect x="60" y="50" width="680" height="44" rx="16" fill="#0b282e" fill-opacity="0.9"/>
+  <circle cx="88" cy="72" r="5" fill="#ef4444"/>
+  <circle cx="106" cy="72" r="5" fill="#f59e0b"/>
+  <circle cx="124" cy="72" r="5" fill="#10b981"/>
+  <text x="156" y="77" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="12" font-weight="500">AveaBOT :: Organic Wellness Customer Assistant</text>
+  <rect x="620" y="62" width="100" height="20" rx="10" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+  <text x="636" y="76" fill="#10b981" font-family="system-ui, sans-serif" font-size="10" font-weight="600">E-COMMERCE</text>
+
+  <!-- Left Chat Mock -->
+  <rect x="85" y="114" width="310" height="294" rx="12" fill="#041316" stroke="#134e4a" stroke-width="1"/>
+  
+  <rect x="130" y="135" width="245" height="48" rx="10" fill="#132e35"/>
+  <text x="142" y="153" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11">Which tea helps with sleep and</text>
+  <text x="142" y="169" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="10">anxiety? Also how to order?</text>
+
+  <rect x="105" y="195" width="270" height="110" rx="10" fill="#065f46" fill-opacity="0.25" stroke="#10b981" stroke-width="1"/>
+  <text x="117" y="215" fill="#34d399" font-family="system-ui, sans-serif" font-size="11" font-weight="700">🌿 Sukoon Herbal Tea</text>
+  <text x="117" y="235" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">• Chamomile, Lavender &amp; Ashwagandha</text>
+  <text x="117" y="253" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">• 100% Caffeine-Free &amp; Natural</text>
+  <text x="117" y="271" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">• 20 Pyramids Pack (30g) - In Stock</text>
+  <text x="117" y="293" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="600">Reply 1 to Confirm Order via Cash on Delivery</text>
+
+  <rect x="170" y="318" width="205" height="40" rx="10" fill="#132e35"/>
+  <text x="182" y="336" fill="#ffffff" font-family="system-ui, sans-serif" font-size="11">1. Deliver to Model Town.</text>
+  <text x="182" y="350" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="10">Order #AV-8924 Created ✓✓</text>
+
+  <!-- Right Details -->
+  <rect x="415" y="114" width="305" height="294" rx="12" fill="#041316" stroke="#134e4a" stroke-width="1"/>
+  <text x="435" y="145" fill="#34d399" font-family="system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="1">CATALOG &amp; ORDER AUTOMATION</text>
+
+  <rect x="435" y="165" width="265" height="60" rx="8" fill="#09252a" stroke="#134e4a" stroke-width="1"/>
+  <text x="450" y="188" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="11">Automated Resolution Rate</text>
+  <text x="450" y="210" fill="#34d399" font-family="system-ui, sans-serif" font-size="18" font-weight="700">84% No Human Agent Needed</text>
+
+  <rect x="435" y="235" width="265" height="60" rx="8" fill="#09252a" stroke="#134e4a" stroke-width="1"/>
+  <text x="450" y="258" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="11">Cart Abandonment Recovery</text>
+  <text x="450" y="280" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="18" font-weight="700">+29% Completed Checkouts</text>
+
+  <rect x="435" y="305" width="265" height="82" rx="8" fill="#09252a" stroke="#134e4a" stroke-width="1"/>
+  <text x="450" y="328" fill="#99f6e4" font-family="system-ui, sans-serif" font-size="11">Tech Stack Components</text>
+  <text x="450" y="350" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Node.js • TypeScript • Express</text>
+  <text x="450" y="370" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Inventory Sync • Webhook Dispatch</text>
+</svg>

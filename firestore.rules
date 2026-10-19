@@ -1,0 +1,80 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global helper: Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Global helper: Check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+      allow delete: if false; // Disallow user deletion directly via client
+    }
+
+    // 2. Leads Collection
+    match /leads/{leadId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+
+    // 3. Campaigns Collection
+    match /campaigns/{campaignId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+
+    // 4. Conversations & Messages Collection
+    match /conversations/{conversationId} {
+      allow read, write: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      
+      match /messages/{messageId} {
+        allow read, write: if isAuthenticated();
+      }
+    }
+
+    // 5. Follow-Up Tasks Collection
+    match /followUpTasks/{taskId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+
+    // 6. Activity Logs (Immutable Audit Trail)
+    match /activityLogs/{logId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // IMMUTABLE: Logs can never be modified or deleted
+    }
+
+    // 7. Suppression List Collection
+    match /suppressionList/{entryId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // 8. Integration Settings Collection
+    match /integrationSettings/{settingId} {
+      allow read, write: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+  }
+}

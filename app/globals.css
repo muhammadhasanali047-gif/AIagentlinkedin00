@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-indigo: #4f46e5;
+    --color-emerald: #10b981;
+    --bg-main: #f8fafc;
+    --text-main: #0f172a;
+  }
+
+  html,
+  body {
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    /* Atmospheric 2-color radial mesh gradient background */
+    background: 
+      radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.09) 0px, transparent 45%),
+      radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.04) 0px, transparent 55%),
+      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.07) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(79, 70, 229, 0.06) 0px, transparent 45%),
+      #f8fafc;
+    background-attachment: fixed;
+    color: #0f172a;
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background-color: rgba(79, 70, 229, 0.2);
+    color: #4f46e5;
+  }
+
+  /* Eye-catching custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+/* Glassmorphism & Eye-Catching Utility Classes */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.gradient-indigo-emerald {
+  background: linear-gradient(135deg, #4f46e5 0%, #10b981 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDash" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040b17"/>
+      <stop offset="50%" stop-color="#08142b"/>
+      <stop offset="100%" stop-color="#020610"/>
+    </linearGradient>
+    <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" fill="url(#bgDash)"/>
+  <circle cx="200" cy="100" r="150" fill="#0284c7" opacity="0.12"/>
+  <circle cx="650" cy="350" r="160" fill="#3b82f6" opacity="0.1"/>
+
+  <!-- Window Frame -->
+  <rect x="60" y="50" width="680" height="380" rx="16" fill="#091428" fill-opacity="0.9" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Top bar -->
+  <rect x="60" y="50" width="680" height="44" rx="16" fill="#0d1b33" fill-opacity="0.9"/>
+  <circle cx="88" cy="72" r="5" fill="#ef4444"/>
+  <circle cx="106" cy="72" r="5" fill="#f59e0b"/>
+  <circle cx="124" cy="72" r="5" fill="#10b981"/>
+  <text x="156" y="77" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12" font-weight="500">AutoOps :: Business Automation &amp; Conversation Telemetry</text>
+  <rect x="625" y="62" width="95" height="20" rx="10" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1"/>
+  <text x="640" y="76" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="600">LIVE METRICS</text>
+
+  <!-- Metric KPI Cards -->
+  <g transform="translate(85, 110)">
+    <rect x="0" y="0" width="145" height="66" rx="8" fill="#050e1e" stroke="#1e293b" stroke-width="1"/>
+    <text x="14" y="24" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">Active Chats</text>
+    <text x="14" y="50" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="700">1,482</text>
+    <text x="80" y="50" fill="#10b981" font-family="system-ui, sans-serif" font-size="11" font-weight="600">+18%</text>
+
+    <rect x="160" y="0" width="145" height="66" rx="8" fill="#050e1e" stroke="#1e293b" stroke-width="1"/>
+    <text x="174" y="24" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">Bot Resolution</text>
+    <text x="174" y="50" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="20" font-weight="700">92.4%</text>
+    <text x="248" y="50" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Auto</text>
+
+    <rect x="320" y="0" width="145" height="66" rx="8" fill="#050e1e" stroke="#1e293b" stroke-width="1"/>
+    <text x="334" y="24" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">Avg Latency</text>
+    <text x="334" y="50" fill="#10b981" font-family="system-ui, sans-serif" font-size="20" font-weight="700">120ms</text>
+    <text x="415" y="50" fill="#10b981" font-family="system-ui, sans-serif" font-size="11">Fast</text>
+
+    <rect x="480" y="0" width="150" height="66" rx="8" fill="#050e1e" stroke="#1e293b" stroke-width="1"/>
+    <text x="494" y="24" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">Dispatched Leads</text>
+    <text x="494" y="50" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="20" font-weight="700">419</text>
+    <text x="560" y="50" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="11">CRM</text>
+  </g>
+
+  <!-- Big Interactive Chart Area -->
+  <rect x="85" y="190" width="630" height="215" rx="10" fill="#050e1e" stroke="#1e293b" stroke-width="1"/>
+  <text x="105" y="218" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Real-Time Event Throughput (Last 24 Hours)</text>
+
+  <!-- Chart Grid Lines -->
+  <line x1="105" y1="240" x2="695" y2="240" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="105" y1="280" x2="695" y2="280" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="105" y1="320" x2="695" y2="320" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="105" y1="360" x2="695" y2="360" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Chart Path -->
+  <path d="M 105 350 Q 180 320, 240 270 T 380 250 T 490 220 T 590 240 T 695 210 L 695 360 L 105 360 Z" fill="url(#chartGrad)"/>
+  <path d="M 105 350 Q 180 320, 240 270 T 380 250 T 490 220 T 590 240 T 695 210" fill="none" stroke="#38bdf8" stroke-width="3"/>
+
+  <!-- Active datapoint -->
+  <circle cx="490" cy="220" r="6" fill="#00f0ff" stroke="#ffffff" stroke-width="2"/>
+  <rect x="450" y="180" width="80" height="26" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+  <text x="460" y="197" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Peak :: 4.2k/m</text>
+</svg>
