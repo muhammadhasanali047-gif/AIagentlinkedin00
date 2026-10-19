@@ -37,6 +37,7 @@ yarn-error.log*
 *serviceAccount*.json
 firebase-admin-key.json
 VERCEL_ENV_SETUP.txt
+PUSH_TO_GITHUB.bat
 
 # vercel
 .vercel
