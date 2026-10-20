@@ -346,10 +346,10 @@ export function SettingsManagement() {
             <div className="p-4 bg-slate-50/80 border border-indigo-100/70 rounded-xl flex items-center justify-between">
               <div>
                 <span className="font-bold text-slate-900 block">
-                  Mandatory Human Sign-Off Before Dispatch
+                  Mandatory Human Sign-Off Before Outbound Dispatch
                 </span>
                 <span className="text-slate-500 text-[11px]">
-                  Requires an operator to approve every AI-generated message draft in the approval queue.
+                  Requires an operator to approve initial connection notes in the approval queue before sending.
                 </span>
               </div>
               <button
@@ -367,6 +367,54 @@ export function SettingsManagement() {
                   }`}
                 />
               </button>
+            </div>
+
+            {/* Mode B: 100% Autonomous Inbound Auto-Chat (Zero-Touch AI Reply) */}
+            <div className="p-4 bg-gradient-to-r from-emerald-50/90 to-teal-50/60 border border-emerald-200/80 rounded-xl space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-900 block text-xs">
+                      ⚡ Mode B: 100% Autonomous Inbound Auto-Chat (Zero-Touch)
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-600 text-white shadow-xs">
+                      {icpSettings.autoReplyEnabled !== false ? "ACTIVE" : "PAUSED"}
+                    </span>
+                  </div>
+                  <span className="text-slate-600 text-[11px] block mt-0.5 leading-relaxed">
+                    When a lead replies on LinkedIn, Gemini AI understands their message context, answers their questions, and automatically dispatches the response without waiting for button clicks.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    updateIcpSettings({ autoReplyEnabled: icpSettings.autoReplyEnabled === false ? true : false })
+                  }
+                  className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 ${
+                    icpSettings.autoReplyEnabled !== false ? "bg-emerald-600" : "bg-slate-300"
+                  }`}
+                >
+                  <div
+                    className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
+                      icpSettings.autoReplyEnabled !== false ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Meeting Booking Link Input */}
+              <div className="pt-2 border-t border-emerald-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <label className="text-[11px] font-bold text-slate-700 whitespace-nowrap">
+                  📅 Calendar Booking Link (Sent automatically on interest):
+                </label>
+                <input
+                  type="text"
+                  value={icpSettings.calendarBookingUrl || "https://cal.com/hassan-ai/15min"}
+                  onChange={(e) => updateIcpSettings({ calendarBookingUrl: e.target.value })}
+                  placeholder="https://cal.com/your-name/15min"
+                  className="w-full sm:w-72 px-3 py-1.5 bg-white border border-emerald-200 rounded-lg text-xs font-mono text-emerald-950 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
             </div>
           </div>
         </div>

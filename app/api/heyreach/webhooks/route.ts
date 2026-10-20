@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/backend/firebase/admin";
 import { classifyReplyWithGemini } from "@/backend/services/gemini/replyClassifier";
+import { heyreachClient } from "@/backend/services/heyreach/client";
 import { logActivity } from "@/backend/services/auditLogger";
 
 export async function POST(req: NextRequest) {
@@ -48,6 +49,17 @@ export async function POST(req: NextRequest) {
       const incomingText = payload.messageText || payload.text || payload.content || "";
       const profileUrl = leadData.profileUrl || payload.profileUrl || "";
 
+      // Fetch current settings to check Mode B (Autonomous Inbound Auto-Chat)
+      let autoReplyEnabled = true; // Default Mode B: Active
+      try {
+        const settingsDoc = await adminDb.collection("integrationSettings").doc("icp").get();
+        if (settingsDoc.exists && settingsDoc.data()?.autoReplyEnabled === false) {
+          autoReplyEnabled = false;
+        }
+      } catch (err: any) {
+        console.warn("Could not fetch icp settings for webhook, defaulting autoReplyEnabled=true:", err?.message);
+      }
+
       // Classify with Gemini AI
       const aiClassification = await classifyReplyWithGemini({
         leadName,
@@ -57,7 +69,53 @@ export async function POST(req: NextRequest) {
         threadHistory: [],
       });
 
+      const conversationId = payload.conversationId || payload.conversation_id || payload.chatId || payload.threadId;
+      const senderAccountId = payload.senderId || payload.accountId || payload.linkedInAccountId;
+
+      let isAutoReplied = false;
+      let autoReplyDispatchError: string | null = null;
+
+      // Mode B: If positive intent (meeting, question, interested) & autoReply is active
+      const isPositiveIntent = ["meeting_request", "question", "interested"].includes(aiClassification.classification);
+      if (autoReplyEnabled && isPositiveIntent && conversationId) {
+        try {
+          const dispatchRes = await heyreachClient.sendMessage(
+            String(conversationId),
+            aiClassification.suggestedResponse,
+            senderAccountId ? Number(senderAccountId) : undefined
+          );
+          if (dispatchRes.success) {
+            isAutoReplied = true;
+          } else {
+            autoReplyDispatchError = dispatchRes.message;
+          }
+        } catch (err: any) {
+          autoReplyDispatchError = err?.message;
+          console.error("Auto-reply dispatch exception:", err?.message);
+        }
+      }
+
       // Save inbound reply into Firestore 'replies' collection
+      const threadHistory = [
+        {
+          id: `msg-${Date.now()}`,
+          sender: "prospect",
+          senderName: leadName,
+          text: incomingText,
+          timestamp: new Date().toISOString(),
+        },
+      ];
+
+      if (isAutoReplied) {
+        threadHistory.push({
+          id: `msg-agent-${Date.now()}`,
+          sender: "agent",
+          senderName: "Autonomous Gemini AI (Mode B)",
+          text: aiClassification.suggestedResponse,
+          timestamp: new Date().toISOString(),
+        });
+      }
+
       const replyRef = await adminDb.collection("replies").add({
         leadName,
         leadTitle,
@@ -68,18 +126,12 @@ export async function POST(req: NextRequest) {
         classificationConfidence: aiClassification.confidence,
         classificationReason: aiClassification.reason,
         aiSuggestedResponse: aiClassification.suggestedResponse,
-        responseStatus: "pending_review",
-        unread: true,
+        responseStatus: isAutoReplied ? "auto_replied" : "pending_review",
+        autoReplied: isAutoReplied,
+        autoRepliedAt: isAutoReplied ? new Date().toISOString() : null,
+        unread: !isAutoReplied,
         receivedAt: new Date().toISOString(),
-        threadHistory: [
-          {
-            id: `msg-${Date.now()}`,
-            sender: "prospect",
-            senderName: leadName,
-            text: incomingText,
-            timestamp: new Date().toISOString(),
-          },
-        ],
+        threadHistory,
       });
 
       // Follow-up Safety Guard: Cancel any pending follow-ups for this lead
@@ -119,8 +171,12 @@ export async function POST(req: NextRequest) {
       await logActivity({
         category: "reply_ingested",
         severity: aiClassification.classification === "not_interested" ? "warning" : "success",
-        title: "Inbound HeyReach Reply Processed",
-        description: `Reply from ${leadName} (${leadCompany}) classified as '${aiClassification.classification}' (${aiClassification.confidence}% confidence).`,
+        title: isAutoReplied
+          ? `Mode B: Autonomous AI Replied to ${leadName}`
+          : "Inbound HeyReach Reply Processed",
+        description: isAutoReplied
+          ? `Gemini understood '${leadName}' intent as '${aiClassification.classification}' and automatically sent contextual response via LinkedIn.`
+          : `Reply from ${leadName} (${leadCompany}) classified as '${aiClassification.classification}' (${aiClassification.confidence}% confidence).`,
         entityId: replyRef.id,
       });
 
@@ -128,6 +184,8 @@ export async function POST(req: NextRequest) {
         success: true,
         replyId: replyRef.id,
         classification: aiClassification.classification,
+        autoReplied: isAutoReplied,
+        autoReplyError: autoReplyDispatchError,
       });
     }
 

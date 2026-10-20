@@ -521,8 +521,8 @@ export const INITIAL_REPLIES: InboxReply[] = [
     classificationReason:
       "Positive confirmation of upcoming demo and alignment on product fit.",
     aiSuggestedResponse:
-      "Awesome, looking forward to meeting on Tuesday, Alex! Have a great weekend.",
-    responseStatus: "sent",
+      "Awesome Alexander! Confirmed for Tuesday at 3 PM CET. Calendar invite sent with Google Meet link. Looking forward to our demo!",
+    responseStatus: "auto_replied",
     unread: false,
     threadHistory: [
       {
@@ -538,6 +538,13 @@ export const INITIAL_REPLIES: InboxReply[] = [
         senderName: "Alexander Becker",
         text: "Sounds like a great fit. Let's do the demo next week as agreed. Looking forward to it!",
         timestamp: "2026-10-16T09:00:00Z",
+      },
+      {
+        id: "m-22",
+        sender: "agent",
+        senderName: "Autonomous Gemini AI (Mode B ⚡)",
+        text: "Awesome Alexander! Confirmed for Tuesday at 3 PM CET. Calendar invite sent with Google Meet link. Looking forward to our demo!",
+        timestamp: "2026-10-16T09:02:15Z",
       },
     ],
   },
@@ -768,6 +775,8 @@ export const INITIAL_ICP_SETTINGS: IcpSettings = {
   companySizes: ["11-50 employees", "51-200 employees", "201-500 employees", "501-1000 employees"],
   minScoreThreshold: 75,
   requireHumanApproval: true,
+  autoReplyEnabled: true, // Mode B: 100% Zero-Touch Autonomous Inbound Auto-Chat
+  calendarBookingUrl: "https://cal.com/hassan-ai/15min",
   prohibitedKeywords: [
     "Student",
     "Intern",

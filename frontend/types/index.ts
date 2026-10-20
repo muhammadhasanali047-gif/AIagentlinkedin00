@@ -106,7 +106,7 @@ export interface InboxReply {
   classificationConfidence: number; // 0 - 100
   classificationReason: string;
   aiSuggestedResponse: string;
-  responseStatus: "draft" | "approved" | "sent" | "dismissed";
+  responseStatus: "draft" | "approved" | "sent" | "dismissed" | "auto_replied";
   unread: boolean;
   threadHistory: MessageThreadItem[];
 }
@@ -164,6 +164,9 @@ export interface IcpSettings {
   companySizes: string[];
   minScoreThreshold: number;
   requireHumanApproval: boolean;
+  autonomousModeEnabled?: boolean;
+  autoReplyEnabled?: boolean;
+  calendarBookingUrl?: string;
   prohibitedKeywords: string[];
   qualificationPromptRule: string;
 }

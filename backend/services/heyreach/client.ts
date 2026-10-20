@@ -346,6 +346,63 @@ export class HeyReachClient {
       return { success: false, data: (err as Error)?.message };
     }
   }
+
+  /**
+   * Send a reply message in an existing conversation thread (Mode B: Autonomous Auto-Chat)
+   * Endpoint: POST /api/public/inbox/SendMessage
+   */
+  async sendMessage(
+    conversationId: string,
+    messageText: string,
+    linkedInAccountId?: number
+  ): Promise<{ success: boolean; data?: unknown; message: string }> {
+    if (!this.apiKey) {
+      return { success: false, message: "HeyReach API Key missing from environment." };
+    }
+
+    try {
+      let senderId = linkedInAccountId;
+      if (!senderId) {
+        const accounts = await this.getAllLinkedInAccounts(0, 1);
+        senderId = accounts.items?.[0]?.id || 263675;
+      }
+
+      const payload = {
+        conversationId,
+        message: messageText,
+        linkedInAccountId: senderId,
+      };
+
+      const res = await fetch(`${this.baseUrl}/inbox/SendMessage`, {
+        method: "POST",
+        headers: this.getHeaders(),
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return {
+          success: true,
+          data,
+          message: "Autonomous reply dispatched successfully to LinkedIn.",
+        };
+      } else {
+        const errorText = await res.text().catch(() => "");
+        console.warn(`HeyReach SendMessage API error (${res.status}):`, errorText);
+        return {
+          success: false,
+          message: `HeyReach SendMessage error: ${errorText}`,
+        };
+      }
+    } catch (err: unknown) {
+      console.error("HeyReach SendMessage network error:", (err as Error)?.message);
+      return {
+        success: false,
+        message: `Network error sending message: ${(err as Error)?.message}`,
+      };
+    }
+  }
 }
 
 export const heyreachClient = new HeyReachClient();
+
